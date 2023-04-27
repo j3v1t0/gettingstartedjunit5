@@ -2,6 +2,7 @@ package com.gettingstartedjunit5.patientintake;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("dateTime")
 @DisplayName("DateTimeConverter should")
 class DateTimeConverterShould {
 
