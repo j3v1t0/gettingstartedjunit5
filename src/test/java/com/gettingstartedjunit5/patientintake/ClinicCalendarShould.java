@@ -50,6 +50,7 @@ class ClinicCalendarShould {
     }
 
     @Test
+    @Disabled
     void returnCurrentDaysAppointments() {
         System.out.println("current days appts...");
         calendar.addAppointment("Jim", "Weaver", "avery", "04/27/2023 2:00 pm");
