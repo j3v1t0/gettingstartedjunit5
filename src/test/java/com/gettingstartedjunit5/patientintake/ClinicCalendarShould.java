@@ -40,35 +40,75 @@ class ClinicCalendarShould {
         );
     }
 
-    @Test
-    void returnTrueForHasAppointmentsIfThereAreAppointments(){
-        System.out.println("Has appts...");
-        calendar.addAppointment("Jim", "Weaver", "avery", "09/01/2023 12:00 pm");
-        assertTrue(calendar.hasAppointment(LocalDate.of(2023,9,1)));
-    }
-    @Test
-    void returnFalseForHasAppointmentsIfThereAreAppointments(){
-        System.out.println("No appts...");
-        assertFalse(calendar.hasAppointment(LocalDate.of(2023,9,1)));
+    @Nested
+    @DisplayName("indicate if there are appointments correctly")
+    class HasAppointments {
+
+        @Test
+        @DisplayName("when there are appointments")
+        void returnTrueForHasAppointmentsIfThereAreAppointments() {
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "09/01/2018 2:00 pm");
+            assertTrue(calendar.hasAppointment(LocalDate.of(2018, 9, 1)));
+        }
+
+        @Test
+        @DisplayName("when there are no appointments")
+        void returnFalseForHasAppointmentsIfThereAreNoAppointments() {
+            assertFalse(calendar.hasAppointment(LocalDate.of(2018, 9, 1)));
+        }
     }
 
-    @Test
-    @Disabled
-    void returnCurrentDaysAppointments() {
-        System.out.println("current days appts...");
-        calendar.addAppointment("Jim", "Weaver", "avery", "04/27/2023 2:00 pm");
-        calendar.addAppointment("Carlos", "Almonte", "avery", "04/27/2023 4:00 pm");
+    @Nested
+    @DisplayName("return appointments for a given day correctly")
+    class AppointmentsForDay {
 
-        assertEquals(2, calendar.getTodayAppointments().size());
-        assertIterableEquals(calendar.getTodayAppointments(), calendar.getAppointments());
-    }
-    @AfterEach
-    void tearDownEachTest(){
-        System.out.println("After each...");
-    }
+        @Test
+        @DisplayName("for today")
+        void returnCurrentDaysAppointments() {
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "04/27/2023 2:00 pm");
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "04/27/2023 3:00 pm");
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "09/01/2023 2:00 pm");
+            assertEquals(2, calendar.getTodayAppointments().size());
+        }
 
-    @AfterAll
-    static void tearDownTestClass(){
-        System.out.println("After all...");
+        @Test
+        @DisplayName("for tomorrow")
+        void returnTommorowsAppointments() {
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "04/28/2023 2:00 pm");
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "04/28/2023 2:00 pm");
+/*            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "04/28/2023 3:00 pm");*/
+            assertEquals(2, calendar.getTomorrowAppointments().size());
+        }
+    }
+    @Nested
+    @DisplayName("return upcoming appointments")
+    class UpcomingAppointments {
+
+        @Test
+        @DisplayName("as empty list when there are none")
+        void whenThereAreNone() {
+            List<PatientAppointment> appointments = calendar.getUpcomingAppointments();
+            assertEquals(0, appointments.size());
+        }
+
+        @Test
+        @DisplayName("correctly when there are some in the past as well")
+        void whenThereAreSomePastAndFuture() {
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "07/27/2021 2:00 pm");
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "07/27/2022 2:00 pm");
+            calendar.addAppointment("Jim", "Weaver", "avery",
+                    "08/27/2023 2:00 pm");
+            assertEquals(1, calendar.getUpcomingAppointments().size());
+        }
+
     }
 }
