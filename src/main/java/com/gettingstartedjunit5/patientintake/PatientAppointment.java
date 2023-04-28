@@ -1,17 +1,17 @@
 package com.gettingstartedjunit5.patientintake;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PatientAppointment {
 
-    private String patientFirstName;
-    private String patientLastName;
-    private LocalDateTime appointmentDateTime;
-    private Doctor doctor;
+    private final String patientFirstName;
+    private final String patientLastName;
+    private final LocalDateTime appointmentDateTime;
+    private final Doctor doctor;
+    private double apptBmi;
 }
